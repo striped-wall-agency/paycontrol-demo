@@ -892,7 +892,7 @@ footer > span {
 .loading .brand {
   margin-bottom: 50px;
 }
-.login {
+.login-page {
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1083,7 +1083,7 @@ footer > span {
     align-items: start;
     flex-direction: column;
   }
-  .login {
+  .login-page {
     grid-template-columns: 1fr 1.1fr;
   }
   .login-story h1 {
@@ -1229,7 +1229,7 @@ footer > span {
   .large-number {
     font-size: 27px;
   }
-  .login {
+  .login-page {
     display: block;
   }
   .login-story {

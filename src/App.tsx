@@ -203,7 +203,7 @@ export default function App() {
   );
   if (!user)
     return (
-      <main className="login">
+      <main className="login-page">
         <div className="login-story">
           <div className="brand">
             ▤ Paycontrol<span>by Striped Wall</span>
