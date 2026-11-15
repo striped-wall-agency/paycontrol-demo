@@ -11,6 +11,19 @@ export class RevisionConflict extends Error {
 }
 function openDatabase(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
+    // Dev-only acceptance hook; Vite removes this branch from production builds.
+    if (
+      import.meta.env.DEV &&
+      typeof location !== "undefined" &&
+      new URLSearchParams(location.search).get("testStorageFailure") === "1"
+    ) {
+      reject(
+        new Error(
+          "IndexedDB is unavailable (development acceptance simulation).",
+        ),
+      );
+      return;
+    }
     const request = indexedDB.open(DATABASE, 1);
     request.onupgradeneeded = () =>
       request.result.createObjectStore("snapshots");

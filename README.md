@@ -25,3 +25,5 @@ Checks: `npm run lint`, `npm run test -- --run`, `npm run build`.
 Vitest covers matching boundaries, every discrepancy category, duplicate ambiguity, review preservation, reporting semantics, search/range validation, formula-safe CSV, role guards, rollback, reload and concurrent revision conflicts using fake IndexedDB.
 
 Manual browser acceptance is required for the committed UI. Responsive and keyboard checks are not a full screen-reader or WCAG certification audit. Demo data only contains masked test payment methods; no PAN or CVV is stored.
+
+For development acceptance only, append `?testStorageFailure=1` to simulate an unavailable IndexedDB before any storage access. Retry continues to show the error until the parameter is removed. This branch is compiled out of production builds and does not clear or alter stored data.

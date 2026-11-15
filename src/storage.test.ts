@@ -1,5 +1,5 @@
 import "fake-indexeddb/auto";
-import { beforeEach, expect, it } from "vitest";
+import { beforeEach, expect, it, vi } from "vitest";
 import { execute, loadSnapshot } from "./storage";
 beforeEach(async () => {
   await new Promise<void>((resolve, reject) => {
@@ -42,4 +42,17 @@ it("serializes concurrent tabs so only one writes the same revision", async () =
   ]);
   expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(1);
   expect((await loadSnapshot()).audit).toHaveLength(1);
+});
+it("reports storage unavailability without replacing the persisted snapshot", async () => {
+  const saved = await loadSnapshot();
+  vi.stubGlobal("location", { search: "?testStorageFailure=1" });
+  try {
+    await expect(loadSnapshot()).rejects.toThrow("IndexedDB is unavailable");
+    await expect(
+      execute({ type: "login", userId: "user-operator" }, saved.revision),
+    ).rejects.toThrow("IndexedDB is unavailable");
+  } finally {
+    vi.unstubAllGlobals();
+  }
+  expect(await loadSnapshot()).toEqual(saved);
 });
